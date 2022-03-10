@@ -67,6 +67,8 @@ class _MyHomePageState extends State<MyHomePage> {
     _dogs.clear();
     _dogs = await sqliteController.dogs();
 
+    _counter = _dogs.length;
+
     setState(() {
 
     });
