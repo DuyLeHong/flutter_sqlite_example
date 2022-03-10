@@ -89,6 +89,8 @@ class SQLiteController {
     // Query the table for all The Dogs.
     final List<Map<String, dynamic>> maps = await db.query('dogs');
 
+    //db.rawQuery(sql)
+
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
       return Dog(
@@ -102,6 +104,8 @@ class SQLiteController {
   Future<void> updateDog(Dog dog) async {
     // Get a reference to the database.
     final db = await database;
+
+    //db.rawUpdate(sql)
 
     // Update the given Dog.
     await db.update(
@@ -117,6 +121,8 @@ class SQLiteController {
   Future<void> deleteDog(String name) async {
     // Get a reference to the database.
     final db = await database;
+
+    //db.rawDelete(sql)
 
     // Remove the Dog from the database.
     await db.delete(
