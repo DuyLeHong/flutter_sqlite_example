@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sqlite_example/sqlite_example.dart';
+
+import 'dog_model.dart';
 
 void main() {
   runApp(const MyApp());
@@ -49,26 +52,33 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  late SQLiteController sqliteController;
+  late List<Dog> _dogs = [];
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  @override
+  void initState() {
+    super.initState();
+
+    sqliteController = SQLiteController();
+    sqliteController.initializeDatabase();
+  }
+
+  void getListDogs() async {
+    _dogs.clear();
+    _dogs = await sqliteController.dogs();
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+
+    getListDogs();
+
+    String sDogs = '';
+
+    for (Dog dog in _dogs) {
+      sDogs += dog.toString();
+    }
+
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
@@ -96,19 +106,48 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'You have pushed the button this many times:',
+              'List dogs:',
             ),
             Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+              sDogs,
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              FloatingActionButton(
+                onPressed: () {
+                  setState(() {
+                    _counter++;
+                    Dog fido = Dog(name: 'Fido$_counter', age: 35);
+                    sqliteController.insertDog(fido);
+                  });
+                },
+                // add event <=== new
+                child: Icon(Icons.plus_one),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              FloatingActionButton(
+                onPressed: () {
+                  setState(() {
+                    Dog fido = Dog(name: 'Fido$_counter', age: 35);
+                    sqliteController.deleteDog(fido.name);
+                    _counter--;
+                  });
+                },
+                // add event <=== new
+                child: Icon(Icons.exposure_minus_1),
+              )
+            ],
+          ),
+        ],
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

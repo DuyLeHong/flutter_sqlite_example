@@ -1,10 +1,10 @@
 class Dog {
-  final int id;
+  int? id;
   final String name;
   final int age;
 
-  const Dog({
-    required this.id,
+  Dog({
+    this.id,
     required this.name,
     required this.age,
   });
