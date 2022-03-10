@@ -60,12 +60,16 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
 
     sqliteController = SQLiteController();
-    sqliteController.initializeDatabase();
   }
 
   void getListDogs() async {
+    await sqliteController.initializeDatabase();
     _dogs.clear();
     _dogs = await sqliteController.dogs();
+
+    setState(() {
+
+    });
   }
 
   @override
@@ -77,6 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     for (Dog dog in _dogs) {
       sDogs += dog.toString();
+      sDogs += '\n';
     }
 
     return Scaffold(

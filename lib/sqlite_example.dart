@@ -10,7 +10,7 @@ class SQLiteController {
 
   late Future<Database> database;
 
-  void initializeDatabase() async {
+  Future<void> initializeDatabase() async {
 
     database = openDatabase(
       // Set the path to the database. Note: Using the `join` function from the
