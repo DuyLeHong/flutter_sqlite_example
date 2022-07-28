@@ -82,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
     String sDogs = '';
 
     for (Dog dog in _dogs) {
-      sDogs += dog.toString();
+      sDogs += dog.toString2();
       sDogs += '\n';
     }
 
