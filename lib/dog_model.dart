@@ -19,10 +19,11 @@ class Dog {
     };
   }
 
-  // Implement toString to make it easier to see information about
-  // each dog when using the print statement.
   @override
   String toString() {
     return 'Dog{id: $id, name: $name, age: $age}';
   }
+
+// Implement toString to make it easier to see information about
+  // each dog when using the print statement.
 }
